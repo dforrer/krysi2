@@ -31,7 +31,7 @@ public class RainbowTable {
   public ArrayList countExistenceOf(String value) {
     ArrayList<String> foundKeys = new ArrayList<String>();
     for(Map.Entry<String, String> entry : rainbowTable.entrySet()) {
-      if(entry.getValue().equals(value)){
+      if(entry.getValue() == value){
         foundKeys.add(entry.getKey());
       }
     }
