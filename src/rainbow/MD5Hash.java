@@ -2,6 +2,7 @@ package rainbow;
 
 /**
  * Created by admin on 13.04.2016.
+ * source: http://stackoverflow.com/questions/415953/how-can-i-generate-an-md5-hash
  */
 public class MD5Hash {
     public static String getHash(String txt) {
