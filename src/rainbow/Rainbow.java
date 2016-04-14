@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.security.*;
 
 public class Rainbow {
 
@@ -37,32 +36,59 @@ public class Rainbow {
 
 		// Quest for encrypted string starts here
 
-		String hashedGrail = HOLY_GRAIL;
-
 		ArrayList<ArrayList<String>> finds = new ArrayList<ArrayList<String>>();
 		String reducedGrail;
 
-		System.out.println("--------------------");
-		System.out.println("REDUCEDGRAILS");
-		System.out.println("--------------------");
-
-		for(int i = 0; i <= limit; i++) {
-		//for(int i = limit; i >= 0; i--) {
-
+		for(int i = limit; i >= 0; i--) {
+			String hashedGrail = HOLY_GRAIL;
 			//	// calculate the next values
 			reducedGrail = rf.reduce(hashedGrail, alphabet, 7, i);
-			System.out.println(reducedGrail);
 			//	// add the finds to the array
 			ArrayList<String> result = rt.countExistenceOf(reducedGrail);
 			if(result.size() > 0) {
 				finds.add(result);
 				System.out.println("found:" + result);
 			}
-			hashedGrail = hf.getHash(reducedGrail);
+			if(i != limit) {
+				for(int j = i+1; j <= limit; j++) {
+					hashedGrail = hf.getHash(reducedGrail);
+					reducedGrail = rf.reduce(hashedGrail, alphabet, 7, j);
+					ArrayList<String> res = rt.countExistenceOf(reducedGrail);
+					if(res.size() > 0) {
+						finds.add(res);
+						System.out.println("found:" + res);
+					}
+				}
+			}
+
 		}
 
-
 		// Do something with the finds here (actually, find the previous value in the chain)
+
+		for (ArrayList<String> list : finds) {
+			for(int z = 0; z < list.size(); z++) {
+				String foundValue = list.get(z);
+				String tempValue = foundValue;
+				String hashedGrail = HOLY_GRAIL;
+
+				for(int i = 0; i <= limit; i++) {
+					String oldValue = tempValue;
+					tempValue = hf.getHash(tempValue);
+
+					// if the hash was found in the chain
+					if(tempValue.equals(hashedGrail)) {
+						System.out.println("Passwort des Hashs: " + HOLY_GRAIL + " ist " + oldValue );
+						break;
+					}
+					else {
+						tempValue = rf.reduce(tempValue, alphabet, 7, i);
+					}
+				}
+			}
+
+
+		}
+
 
 	}
 
